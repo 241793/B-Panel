@@ -300,14 +300,14 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
           <div class="p-status"><span>9:41</span><span>◐ ▮ ▯</span></div>
           <div class="p-appbar"><span class="t">脚本编辑</span><span class="ic">▶</span><span class="ic">✓</span></div>
           <div class="p-code">
-            <div class="ln"><span class="no">1</span><span class="cd"><span class="cm">// 每日签到</span></span></div>
-            <div class="ln"><span class="no">2</span><span class="cd"><span class="kw">const</span> ql = <span class="fn">require</span>(<span class="str">'./utils'</span>)</span></div>
+            <div class="ln"><span class="no">1</span><span class="cd"><span class="cm">// WEB登陆</span></span></div>
+            <div class="ln"><span class="no">2</span><span class="cd"><span class="kw">const</span> web = <span class="fn">require</span>(<span class="str">'./utils'</span>)</span></div>
             <div class="ln"><span class="no">3</span><span class="cd"></span></div>
-            <div class="ln"><span class="no">4</span><span class="cd"><span class="kw">await</span> ql.<span class="fn">signIn</span>({</span></div>
-            <div class="ln"><span class="no">5</span><span class="cd">  cookie: <span class="kw">process</span>.env.JD_COOKIE</span></div>
+            <div class="ln"><span class="no">4</span><span class="cd"><span class="kw">await</span> web.<span class="fn">signIn</span>({</span></div>
+            <div class="ln"><span class="no">5</span><span class="cd">  cookie: <span class="kw">process</span>.env.WEB_COOKIE</span></div>
             <div class="ln"><span class="no">6</span><span class="cd">})</span></div>
             <div class="ln"><span class="no">7</span><span class="cd"></span></div>
-            <div class="ln"><span class="no">8</span><span class="cd">console.<span class="fn">log</span>(<span class="str">'签到完成'</span>)</span></div>
+            <div class="ln"><span class="no">8</span><span class="cd">console.<span class="fn">log</span>(<span class="str">'登陆完成'</span>)</span></div>
             <div class="ln"><span class="no">9</span><span class="cd"></span></div>
           </div>
           <div class="p-nav">
@@ -330,8 +330,8 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
           </div>
           <div class="p-body">
             <div class="p-card">
-              <div class="r1"><span class="dot"></span><span class="nm">xx签到</span><span class="tag ok">运行中</span></div>
-              <div class="cmd">task xx_sign.js</div>
+              <div class="r1"><span class="dot"></span><span class="nm">xx登陆测试</span><span class="tag ok">运行中</span></div>
+              <div class="cmd">task xx_login.js</div>
             </div>
             <div class="p-card">
               <div class="r1"><span class="dot" style="background:#12B76A"></span><span class="nm">天气推送</span><span class="tag ok">成功</span></div>
@@ -368,7 +368,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
             </div>
             <div class="p-card">
               <div class="r1"><span class="dot"></span><span class="nm">正在运行</span></div>
-              <div class="cmd">xx签到 · 已运行 12s</div>
+              <div class="cmd">xx登陆 · 已运行 12s</div>
             </div>
             <div class="p-card">
               <div class="r1"><span class="dot" style="background:#12B76A"></span><span class="nm">最近成功</span></div>
