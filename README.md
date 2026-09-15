@@ -1,12 +1,16 @@
 <div align="center">
+## 🔗 友情链接
+
+[![AI Agent+插件系统+脚本系统](https://img.shields.io/badge/朋友A-B-BOT-blue?style=for-the-badge)](https://241793.github.io/B-Bot)
 
 # B-Panel
 
 **运行在手机上的脚本任务管理面板**
 
+本项目是一款本地脚本运行环境，仅供学习、开发及合法自动化用途。用户自行编写并运行的脚本内容，由用户独立承担全部法律责任。本项目开发者不对用户使用本工具产生的任何行为负责，亦不对因使用本工具导致的任何损失承担责任。请勿将本工具用于任何违反法律法规或第三方平台规则的用途。
+
 在 Android 上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，
 并内置本地 HTTP API（与 [青龙面板](https://github.com/whyour/qinglong) v2.21.0 接口兼容，
-第三方青龙客户端可直接接入）与网页管理面板。
 
 </div>
 
@@ -66,54 +70,7 @@
 
 从 [Releases](https://github.com/241793/B-Panel/releases) 下载对应架构的 APK：
 
-| 文件 | 适用 |
-|---|---|
-| `B-Panel-arm64-<版本>.apk` | 绝大多数现代手机（推荐） |
-| `B-Panel-armeabi-<版本>.apk` | 老旧 32 位设备 |
-| `B-Panel-x86_64-<版本>.apk` | 模拟器 / x86 平板 |
-
-## 构建
-
-要求：JDK 17、Android SDK（platform 35 + build-tools 35 + NDK 27 + CMake 3.22）。
-
-1. **下载 libnode.so**（约 180MB，不进 git）：
-   从 [nodejs-mobile v18.20.4](https://github.com/nodejs-mobile/nodejs-mobile/releases/download/v18.20.4/nodejs-mobile-v18.20.4-android.zip)
-   解压 `bin/<abi>/libnode.so`（arm64-v8a / armeabi-v7a / x86_64）到 `app/src/main/jniLibs/<abi>/`。
-2. 写 `local.properties` 指向 SDK 路径。
-3. 构建：
-   ```bash
-   ./build.sh           # debug 包
-   ./build.sh release   # 正式签名 + R8 混淆包
-   ```
-   Release 签名需要项目根目录的 `keystore.properties`（不进仓库）：
-   ```properties
-   storeFile=bpanel-release.keystore
-   storePassword=...
-   keyAlias=...
-   keyPassword=...
-   ```
-   正式发布后请归档 `app/build/outputs/mapping/release/mapping.txt`（崩溃堆栈还原用）。
-
-Windows + 中文路径：CMake 会崩，`build.sh` 已自动镜像到 ASCII 路径构建。
-
-## 测试
-
-```bash
-cd /d/ql-android && export JAVA_HOME="C:\Program Files\Java\jdk-17.0.2"
-/d/tmp_build/gradle/bin/gradle.bat testDebugUnitTest
-```
-
-单测覆盖：API 契约（Robolectric + Ktor testApplication，无需模拟器）、调度补偿语义、
-备份导入导出与 zip-slip 校验、代理源组装等回归。
-
 ## 文档
 
 - [`docs/API_COMPAT.md`](docs/API_COMPAT.md) —— 本地 HTTP API 接口对照表
 - App 内「侧边栏 → APP 使用文档」—— 功能说明 / 接口手册 / 常见问题
-
-## 致谢
-
-- 接口设计参考 [whyour/qinglong](https://github.com/whyour/qinglong)（GPL-3.0）
-- 脚本运行基于 [nodejs-mobile](https://github.com/nodejs-mobile/nodejs-mobile) 与 [Chaquopy](https://chaquo.com/chaquopy/)
-- 网页面板编辑器基于 [CodeMirror 5](https://codemirror.net/)
-
