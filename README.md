@@ -1,7 +1,7 @@
 <div align="center">
 ## 🔗 友情链接 
   
-[![AIAgent+插件系统+脚本系统](https://img.shields.io/badge/AIAgent%2B插件系统%2B脚本系统（B-BOT）-blue?style=for-the-badge)](https://241793.github.io/B-Bot)
+[![AIAgent+插件系统+脚本系统](https://img.shields.io/badge/AIAgent%2B插件系统%2B脚本系统（B BOT）-blue?style=for-the-badge)](https://241793.github.io/B-Bot)
 
 # B-Panel
 
