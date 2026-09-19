@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>B-Panel — 运行在手机上的脚本任务面板</title>
-<meta name="description" content="在 Android 上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，还能用浏览器远程管理。">
+<meta name="description" content="在 Android 上运行 JavaScript / Python 脚本：cron 定时调度、环境变量、订阅拉取、依赖管理，浏览器远程管理，两台手机扫码互传脚本。数据只存本机。">
 <!-- 无外部依赖：样式与脚本全部内联，字体走系统栈（符合项目「不用 CDN」约定） -->
 <style>
 :root{
@@ -212,6 +212,18 @@ section{padding:96px 0}
 .tree pre{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; line-height:1.9; color:#c9cede}
 .tree .dir{color:#82aaff} .tree .f{color:#e6e6e6} .tree .c{color:#7a8299}
 
+/* 配对码示意（局域网分享）—— 复用深色卡片底色，与 .tree/.code 观感一致 */
+.pair{background:#1c1c1e; border-radius:14px; padding:22px 20px; box-shadow:0 12px 30px rgba(0,0,0,.18);
+  display:flex; align-items:center; gap:22px; flex-wrap:wrap; justify-content:center}
+.pair .qr{width:112px; height:112px; flex:none; border-radius:12px; background:#fff; padding:10px}
+.pair .qr svg{width:100%; height:100%; display:block}
+.pair .info{flex:1; min-width:170px; font-family:ui-monospace,Menlo,monospace}
+.pair .info .lbl{font-size:11.5px; color:#7a8299; letter-spacing:.06em; text-transform:uppercase}
+.pair .info .code{font-size:26px; font-weight:700; color:#fff; letter-spacing:.16em; margin:4px 0 12px}
+.pair .info .ttl{font-size:12.5px; color:#a1a1a6; margin-bottom:6px}
+.pair .info .step{font-size:12.5px; color:#c9cede; line-height:1.85}
+.pair .info .step b{color:#82aaff; font-weight:600}
+
 /* ---------- 深色安全区 ---------- */
 .dark{background:#000; color:#f5f5f7}
 .dark .sec-eyebrow{color:var(--p2)}
@@ -271,6 +283,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     </span>
     <div class="links">
       <a href="#features">功能</a>
+      <a href="#sharing">互传脚本</a>
       <a href="#security">安全</a>
       <a href="#download">下载</a>
       <a href="https://github.com/241793/B-Panel/issues" target="_blank" rel="noopener">反馈</a>
@@ -284,7 +297,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   <div class="wrap">
     <div class="eyebrow reveal">Android · 免费 · 无需 root</div>
     <h1 class="reveal">把手机<br>变成脚本任务服务器</h1>
-    <p class="sub reveal">在手机上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，还能用浏览器远程管理。</p>
+    <p class="sub reveal">在手机上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，还能用浏览器远程管理、两台手机互传脚本。</p>
     <div class="btns reveal">
       <a class="btn pri" href="#download">免费下载</a>
       <a class="btn ghost" href="#features">了解功能 →</a>
@@ -396,7 +409,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   <div class="wrap">
     <div class="sec-eyebrow reveal">核心能力</div>
     <h2 class="sec-h reveal">一台手机，跑得动你的所有脚本</h2>
-    <p class="sec-p reveal">双语言运行时、分钟级定时调度、浏览器远程管理 —— 该有的都有。</p>
+    <p class="sec-p reveal">Node.js 18 与 Python 3.11 双运行时、分钟级 cron 调度、浏览器远程管理、两台手机互传脚本 —— 从写脚本到发定时任务，全程在手机上完成。</p>
 
     <!-- 双运行时 -->
     <div class="feat reveal">
@@ -435,8 +448,8 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     <div class="feat reveal">
       <div class="txt">
         <h3>浏览器远程管理</h3>
-        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，九个页签完整管理任务、变量、脚本、日志、订阅。</p>
-        <p>账号密码登录、记住密码自动登录；运行日志实时刷新，脚本可随时停止。</p>
+        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十个页签完整管理仪表盘、任务、变量、脚本、执行日志、系统日志、依赖、订阅与令牌。</p>
+        <p>脚本可单个下载，也可勾选多个<span class="hl">打包成 zip</span>（保留目录结构）；运行日志实时刷新，脚本随时停止。</p>
       </div>
       <div class="browser">
         <div class="bar"><i></i><i></i><i></i><div class="url">http://192.168.1.8:5700/panel</div></div>
@@ -469,6 +482,61 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
    └─ <span class="dir">subs/</span>         <span class="c"># 订阅拉取的脚本</span></pre>
       </div>
     </div>
+
+    <!-- 局域网分享（新增） -->
+    <div class="feat reveal" id="sharing">
+      <div class="txt">
+        <h3>两台手机互传脚本</h3>
+        <p>两台手机都装了 B-Panel，就能<span class="hl">直接互传脚本与环境变量</span>：接收端亮出二维码，
+          发送端扫一下，勾选要传的内容即可 —— 不用数据线，不用电脑中转。</p>
+        <p>配对是<span class="hl">一次性的</span>：配对码 5 分钟失效，换取的上传令牌 10 分钟失效，
+          且只能在「接收模式」打开期间使用 —— 传完自动关闭，平时服务仍只监听本机。</p>
+      </div>
+      <div class="pair">
+        <div class="qr">
+          <!-- 示意二维码（内联 SVG，无外部依赖） -->
+          <svg viewBox="0 0 29 29" shape-rendering="crispEdges" aria-label="配对二维码示意">
+            <rect width="29" height="29" fill="#fff"/>
+            <g fill="#0b0c10">
+              <rect x="0" y="0" width="7" height="7"/><rect x="1" y="1" width="5" height="5" fill="#fff"/><rect x="2" y="2" width="3" height="3"/>
+              <rect x="22" y="0" width="7" height="7"/><rect x="23" y="1" width="5" height="5" fill="#fff"/><rect x="24" y="2" width="3" height="3"/>
+              <rect x="0" y="22" width="7" height="7"/><rect x="1" y="23" width="5" height="5" fill="#fff"/><rect x="2" y="24" width="3" height="3"/>
+              <rect x="9" y="0" width="1" height="1"/><rect x="11" y="1" width="1" height="1"/><rect x="9" y="3" width="2" height="1"/>
+              <rect x="12" y="2" width="1" height="2"/><rect x="10" y="5" width="1" height="1"/><rect x="13" y="4" width="1" height="1"/>
+              <rect x="0" y="9" width="1" height="1"/><rect x="2" y="10" width="2" height="1"/><rect x="5" y="9" width="1" height="2"/>
+              <rect x="1" y="12" width="1" height="1"/><rect x="3" y="13" width="2" height="1"/><rect x="6" y="11" width="1" height="1"/>
+              <rect x="9" y="9" width="3" height="1"/><rect x="13" y="10" width="1" height="2"/><rect x="10" y="12" width="1" height="1"/>
+              <rect x="9" y="14" width="2" height="1"/><rect x="12" y="13" width="2" height="1"/><rect x="15" y="9" width="1" height="1"/>
+              <rect x="17" y="10" width="1" height="2"/><rect x="19" y="9" width="2" height="1"/><rect x="16" y="13" width="1" height="1"/>
+              <rect x="18" y="14" width="2" height="1"/><rect x="22" y="9" width="1" height="2"/><rect x="24" y="10" width="1" height="1"/>
+              <rect x="26" y="9" width="2" height="1"/><rect x="23" y="12" width="2" height="1"/><rect x="27" y="12" width="1" height="1"/>
+              <rect x="0" y="16" width="2" height="1"/><rect x="3" y="17" width="1" height="1"/><rect x="5" y="16" width="1" height="2"/>
+              <rect x="1" y="19" width="1" height="1"/><rect x="4" y="19" width="2" height="1"/><rect x="7" y="16" width="1" height="1"/>
+              <rect x="9" y="16" width="1" height="2"/><rect x="11" y="17" width="2" height="1"/><rect x="14" y="16" width="1" height="1"/>
+              <rect x="10" y="19" width="1" height="1"/><rect x="13" y="19" width="2" height="1"/><rect x="16" y="16" width="2" height="1"/>
+              <rect x="19" y="17" width="1" height="2"/><rect x="17" y="19" width="1" height="1"/><rect x="21" y="16" width="1" height="1"/>
+              <rect x="23" y="17" width="2" height="1"/><rect x="26" y="16" width="1" height="2"/><rect x="22" y="19" width="1" height="1"/>
+              <rect x="25" y="20" width="1" height="1"/><rect x="27" y="19" width="1" height="1"/>
+              <rect x="9" y="22" width="1" height="2"/><rect x="11" y="23" width="2" height="1"/><rect x="14" y="22" width="1" height="1"/>
+              <rect x="10" y="25" width="2" height="1"/><rect x="13" y="25" width="1" height="2"/><rect x="16" y="23" width="1" height="1"/>
+              <rect x="16" y="27" width="2" height="1"/><rect x="19" y="22" width="1" height="2"/><rect x="18" y="25" width="1" height="1"/>
+              <rect x="21" y="23" width="2" height="1"/><rect x="24" y="22" width="1" height="1"/><rect x="26" y="23" width="1" height="2"/>
+              <rect x="22" y="25" width="2" height="1"/><rect x="25" y="26" width="1" height="1"/><rect x="27" y="27" width="1" height="1"/>
+            </g>
+          </svg>
+        </div>
+        <div class="info">
+          <div class="lbl">配对码</div>
+          <div class="code">7K2M9Q</div>
+          <div class="ttl">5 分钟内有效 · 一次性</div>
+          <div class="step">
+            <b>1</b> 接收端：设置 → 局域网分享 → 接收<br>
+            <b>2</b> 发送端：扫码 或 手输配对码<br>
+            <b>3</b> 勾选脚本 / 变量 → 发送
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -487,12 +555,17 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
       <div class="sec-item reveal">
         <div class="ic">🏠</div>
         <h4>默认本地访问</h4>
-        <p>服务默认只监听本机，局域网访问需你手动开启；数据全程留在设备上，不经过任何服务器。</p>
+        <p>服务默认只监听本机，局域网访问需你手动开启；数据全程留在设备上，不经过任何服务器。互传脚本用的「接收模式」是临时开放，传完即关。</p>
       </div>
       <div class="sec-item reveal">
         <div class="ic">🧱</div>
         <h4>防暴力破解</h4>
         <p>连续输错密码会自动锁定，改密后所有旧登录立即失效，防止账号被盗用。</p>
+      </div>
+      <div class="sec-item reveal">
+        <div class="ic">🚧</div>
+        <h4>远程停用开关</h4>
+        <p>服务端可下发停用指令，被停用时连登录页一起拦截，并给出明确原因 —— 而不是让用户对着「连不上」干着急。</p>
       </div>
       <div class="sec-item reveal">
         <div class="ic">💾</div>
@@ -514,10 +587,10 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <span class="dl-ic">⬇</span>
         <span class="dl-txt">
           <span class="dl-name">下载 B-Panel for Android</span>
-          <span class="dl-meta">arm64-v8a · v1.0.0 · 约 82 MB</span>
+          <span class="dl-meta">arm64-v8a · v1.0.0 · 约 83 MB</span>
         </span>
       </a>
-      <p class="req">系统要求：Android 8.0 及以上 · 查看 <a href="https://github.com/241793/B-Panel/releases" target="_blank" rel="noopener">历史版本</a></p>
+      <p class="req">系统要求：Android 8.0 及以上 · 支持 arm64-v8a / armeabi-v7a / x86_64 · 查看 <a href="https://github.com/241793/B-Panel/releases" target="_blank" rel="noopener">历史版本</a></p>
     </div>
   </div>
 </section>
@@ -539,6 +612,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <h5>帮助</h5>
         <a href="https://github.com/241793/B-Panel/blob/main/README.md" target="_blank" rel="noopener">使用说明</a>
         <a href="https://github.com/241793/B-Panel/issues" target="_blank" rel="noopener">反馈问题</a>
+        <a href="#sharing">互传脚本</a>
       </div>
     </div>
     <div class="bottom">
