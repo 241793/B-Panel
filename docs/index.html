@@ -197,8 +197,7 @@ section{padding:96px 0}
 .lang .nm{font-size:15px; font-weight:700; margin-bottom:3px}
 .lang .vr{font-size:12.5px; color:var(--t3); font-family:ui-monospace,Menlo,monospace}
 
-/* cron 示意 */
-.cronv{background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px;
+/* cron 示意 */.cronv{background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px;
   box-shadow:0 6px 20px rgba(16,24,40,.05)}
 .cronv .expr{font-family:ui-monospace,Menlo,monospace; font-size:17px; letter-spacing:.04em;
   color:var(--text); margin-bottom:16px; text-align:center}
@@ -206,6 +205,23 @@ section{padding:96px 0}
 .cronv .line{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--t2);
   padding:7px 0; border-top:1px solid #f0f1f5}
 .cronv .line .d{width:8px; height:8px; border-radius:50%; background:var(--p)}
+
+/* AI 对话示意（复用 .chat 前缀，避免与既有类名冲突） */
+.chat{background:#fff; border:1px solid var(--line); border-radius:18px; padding:18px;
+  box-shadow:0 6px 20px rgba(16,24,40,.05)}
+.chat .msg{display:flex; gap:10px; margin-bottom:12px; font-size:13.5px; line-height:1.55}
+.chat .msg.me{flex-direction:row-reverse}
+.chat .av{width:26px; height:26px; border-radius:50%; flex:none; display:grid; place-items:center;
+  font-size:13px; background:var(--p); color:#fff}
+.chat .msg.me .av{background:#e9eaf4; color:var(--p)}
+.chat .bub{background:#f5f6fa; border-radius:12px; padding:9px 12px; max-width:82%; color:var(--text)}
+.chat .msg.me .bub{background:#eeeffb}
+.chat .bub .mono{font-size:12px; color:var(--t3)}
+
+/* 能力小标签 */
+.tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+.tags span{font-size:12.5px; color:var(--p); background:rgba(79,91,213,.09);
+  border-radius:99px; padding:5px 12px; font-weight:500}
 
 /* 文件树 / 备份示意 */
 .tree{background:#1c1c1e; border-radius:14px; padding:18px 20px; box-shadow:0 12px 30px rgba(0,0,0,.18)}
@@ -283,6 +299,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     </span>
     <div class="links">
       <a href="#features">功能</a>
+      <a href="#ai">AI 助手</a>
       <a href="#sharing">互传脚本</a>
       <a href="#security">安全</a>
       <a href="#download">下载</a>
@@ -297,7 +314,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   <div class="wrap">
     <div class="eyebrow reveal">Android · 免费 · 无需 root</div>
     <h1 class="reveal">把手机<br>变成脚本任务服务器</h1>
-    <p class="sub reveal">在手机上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，还能用浏览器远程管理、两台手机互传脚本。</p>
+    <p class="sub reveal">在手机上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，还能用浏览器远程管理、两台手机互传脚本，以及让 <b>AI 助手</b>对话替你操作。</p>
     <div class="btns reveal">
       <a class="btn pri" href="#download">免费下载</a>
       <a class="btn ghost" href="#features">了解功能 →</a>
@@ -409,14 +426,14 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   <div class="wrap">
     <div class="sec-eyebrow reveal">核心能力</div>
     <h2 class="sec-h reveal">一台手机，跑得动你的所有脚本</h2>
-    <p class="sec-p reveal">Node.js 18 与 Python 3.11 双运行时、分钟级 cron 调度、浏览器远程管理、两台手机互传脚本 —— 从写脚本到发定时任务，全程在手机上完成。</p>
+    <p class="sec-p reveal">Node.js 18 与 Python 3.11 双运行时、分钟级 cron 调度、浏览器远程管理、两台手机互传脚本、AI 助手对话操作 —— 从写脚本到发定时任务，全程在手机上完成。</p>
 
     <!-- 双运行时 -->
     <div class="feat reveal">
       <div class="txt">
         <h3>双语言运行时</h3>
         <p>内置 <span class="hl">Node.js 18</span> 与 <span class="hl">Python 3.11</span> 两套完整运行时，脚本进程内执行，无需额外环境。</p>
-        <p>支持超时强停、缺依赖自动识别安装；<span class="hl">pycryptodome</span> 等常用 C 扩展包已随包内置，开箱即用。</p>
+        <p>多个脚本可以<span class="hl">同时运行</span>，各有独立日志互不串台；支持超时强停、缺依赖自动识别安装。常用 C 扩展包已随包内置，开箱即用。</p>
       </div>
       <div class="code">
 <pre><span class="cm">// 随便写点什么，点运行就有结果</span>
@@ -434,7 +451,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
       <div class="txt">
         <h3>分钟级定时调度</h3>
         <p>标准 <span class="hl">cron 表达式</span>，20 秒轮询 + 15 分钟闹钟兜底；错过执行有 5 分钟宽限补跑。</p>
-        <p>支持失败重试、任务级超时、并发数可配，以及标签、置顶、批量操作。</p>
+        <p><span class="hl">运行中的任务自动置顶</span> —— 点完启动一眼就能看到，跑完自动落回原位。支持失败重试、任务级超时、并发数可配，以及标签、拖拽排序、批量操作。</p>
       </div>
       <div class="cronv">
         <div class="expr"><b>0</b> <b>8</b> <b>*</b> <b>*</b> <b>*</b></div>
@@ -448,7 +465,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     <div class="feat reveal">
       <div class="txt">
         <h3>浏览器远程管理</h3>
-        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十个页签完整管理仪表盘、任务、变量、脚本、执行日志、系统日志、依赖、订阅与令牌。</p>
+        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十三个页签完整管理仪表盘、任务、变量、脚本、日志、依赖、订阅、令牌、通知渠道与 AI 助手。</p>
         <p>脚本可单个下载，也可勾选多个<span class="hl">打包成 zip</span>（保留目录结构）；运行日志实时刷新，脚本随时停止。</p>
       </div>
       <div class="browser">
@@ -456,7 +473,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <div class="pane">
           <div class="side">
             <div class="it on">仪表盘</div><div class="it">定时任务</div><div class="it">环境变量</div>
-            <div class="it">脚本管理</div><div class="it">执行日志</div><div class="it">设置</div>
+            <div class="it">脚本管理</div><div class="it">日志</div><div class="it">AI 助手</div>
           </div>
           <div class="main">
             <div class="h">今日概览</div>
@@ -540,6 +557,100 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   </div>
 </section>
 
+<!-- ============ AI 助手 ============ -->
+<section id="ai">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">AI 助手 · 新增</div>
+    <h2 class="sec-h reveal">不想翻菜单？<br>直接跟它说</h2>
+    <p class="sec-p reveal">B-Panel 把面板的能力通过 MCP 协议开放出来，任何支持 MCP 的 AI 客户端都能接管操作 —— 查任务、读日志、改脚本，一句话的事。</p>
+
+    <!-- MCP 工具 -->
+    <div class="feat reveal">
+      <div class="txt">
+        <h3>34 个工具，交给 AI 操作</h3>
+        <p>对外暴露 <span class="hl">MCP 协议</span>端点，覆盖定时任务、脚本、环境变量、日志、配置五大类能力。</p>
+        <p>支持 MCP 的客户端（Claude Code、Claude Desktop 等）填上地址即可接入，无需额外插件。</p>
+        <p>AI 工具集<span class="hl">不含任何删除类操作</span> —— 即便开启写权限，也删不掉你的任务与脚本。</p>
+        <div class="tags">
+          <span>任务查询 / 启停</span><span>脚本读写</span><span>环境变量</span>
+          <span>日志检索</span><span>配置修改</span>
+        </div>
+      </div>
+      <div class="code">
+<pre><span class="cm">// Claude Code 里加一段配置就能用</span>
+{
+  <span class="str">"mcpServers"</span>: {
+    <span class="str">"b-panel"</span>: {
+      <span class="str">"url"</span>: <span class="str">"http://192.168.1.8:5700/mcp"</span>
+    }
+  }
+}
+
+<span class="cm">// 然后就可以直接说：</span>
+<span class="kw">&gt;</span> 帮我看下今天有哪些任务失败了</pre>
+      </div>
+    </div>
+
+    <!-- 聊天机器人 -->
+    <div class="feat rev reveal">
+      <div class="txt">
+        <h3>在微信 / QQ 里直接用</h3>
+        <p>把面板接进聊天软件：<span class="hl">微信（openclaw）</span>、<span class="hl">QQ 机器人</span>，
+          扫个二维码就能登录，不用折腾开发者后台。</p>
+        <p>可设<span class="hl">指令前缀</span>（如只响应 <span class="mono">!</span> 开头的消息）、
+          <span class="hl">写权限开关</span>、以及<span class="hl">工具白名单</span> ——
+          想把某个机器人收窄成「只能查任务」的专用助手，勾一下就行。</p>
+        <p>暂时不想接渠道？先用<span class="hl">本地调试</span>在 App 里对话，验证配置没问题再上。</p>
+      </div>
+      <div class="chat">
+        <div class="msg me">
+          <div class="av">我</div>
+          <div class="bub">今天有几个任务失败了？</div>
+        </div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">今天共执行 12 个任务，其中 <b>1 个失败</b>：<br>
+            · <span class="mono">jd_sign.js</span> — 退出码 1<br>
+            要我把它的日志拉出来看看吗？</div>
+        </div>
+        <div class="msg me">
+          <div class="av">我</div>
+          <div class="bub">看看</div>
+        </div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">日志里是 <span class="mono">Cookie 已过期</span>，
+            需要更新环境变量 <span class="mono">JD_COOKIE</span>。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模型账户 -->
+    <div class="feat reveal">
+      <div class="txt">
+        <h3>模型随便换，Key 不外泄</h3>
+        <p>支持 <span class="hl">OpenAI 兼容</span>（DeepSeek / 智谱 / 月之暗面 / 硅基流动 / 本地 Ollama…）
+          与 <span class="hl">Anthropic 原生</span>两套接入，可配多个账户随时切换。</p>
+        <p>后台可一键<span class="hl">拉取模型列表</span>（不用照文档手敲）、<span class="hl">测试连接</span>
+          确认 Key 可用；网页面板里 Key 一律<span class="hl">掩码显示</span>，改名字保存也不会覆盖真 Key。</p>
+        <p>AI 与 MCP 各有独立开关，默认关闭，用不到就不占资源。</p>
+      </div>
+      <div class="langs">
+        <div class="lang">
+          <div class="ic">🤖</div>
+          <div class="nm">OpenAI 兼容</div>
+          <div class="vr">DeepSeek / 智谱 / Ollama…</div>
+        </div>
+        <div class="lang">
+          <div class="ic">🧠</div>
+          <div class="nm">Anthropic</div>
+          <div class="vr">Claude 原生接入</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 安全（深色） ============ -->
 <section id="security" class="dark">
   <div class="wrap">
@@ -566,6 +677,11 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <div class="ic">🚧</div>
         <h4>远程停用开关</h4>
         <p>服务端可下发停用指令，被停用时连登录页一起拦截，并给出明确原因 —— 而不是让用户对着「连不上」干着急。</p>
+      </div>
+      <div class="sec-item reveal">
+        <div class="ic">🤖</div>
+        <h4>AI 权限单独收口</h4>
+        <p>AI 与 MCP 各有独立开关，默认关闭。MCP 端点单独鉴权，写操作需令牌显式带 <span class="mono">mcp:write</span> 权限；且工具集不含删除类操作，开写权限也删不掉任务与脚本。</p>
       </div>
       <div class="sec-item reveal">
         <div class="ic">💾</div>
