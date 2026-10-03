@@ -14,7 +14,7 @@
 
 | 内部对话例子 | AI功能概览 |
 | --- | --- |
-| <img width="371" height="450" alt="8ef1b5f9-d257-4abf-8694-e6b6a62cc1f6" src="https://github.com/user-attachments/assets/7682f1cc-3e51-4f10-ab9b-7c772ac402bd" /> | <img width="371" height="450" alt="83503c21-a658-43b2-b41f-8494afc5ce16" src="https://github.com/user-attachments/assets/729c036d-001a-47d9-bd4b-850d1e0aebb5" /> |
+| <img width="371" height="550" alt="8ef1b5f9-d257-4abf-8694-e6b6a62cc1f6" src="https://github.com/user-attachments/assets/7682f1cc-3e51-4f10-ab9b-7c772ac402bd" /> | <img width="371" height="550" alt="83503c21-a658-43b2-b41f-8494afc5ce16" src="https://github.com/user-attachments/assets/729c036d-001a-47d9-bd4b-850d1e0aebb5" /> |
 </div>
 
 \---
