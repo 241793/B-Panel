@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>B-Panel — 运行在手机上的脚本任务面板</title>
-<meta name="description" content="在 Android 上运行 JavaScript / Python 脚本：cron 定时调度、环境变量、订阅拉取、依赖管理，浏览器远程管理，两台手机扫码互传脚本。数据只存本机。">
+<title>B-Panel — 会听人话的手机脚本面板</title>
+<meta name="description" content="在 Android 上运行 JavaScript / Python 脚本，让 AI 助手替你查任务、读日志、改脚本、发文件。微信 / QQ / MCP 客户端都能接，两台手机还能扫码互传脚本。数据只存本机。">
 <!-- 无外部依赖：样式与脚本全部内联，字体走系统栈（符合项目「不用 CDN」约定） -->
 <style>
 :root{
@@ -274,6 +274,106 @@ footer .col a{display:block; color:var(--t3); text-decoration:none; margin-botto
 footer .col a:hover{color:var(--p)}
 footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   justify-content:space-between; flex-wrap:wrap; gap:10px}
+
+/* ============================================================
+   AI 相关样式
+   ============================================================ */
+
+/* ---------- Hero 里的 AI 徽标 ---------- */
+.ai-badge{display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600;
+  color:var(--p); background:rgba(79,91,213,.10); border:1px solid rgba(79,91,213,.20);
+  border-radius:99px; padding:5px 14px; margin-bottom:16px}
+.ai-badge .pulse{width:7px; height:7px; border-radius:50%; background:var(--ok); flex:none;
+  box-shadow:0 0 0 0 rgba(18,183,106,.6); animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 rgba(18,183,106,.55)}
+  70%{box-shadow:0 0 0 8px rgba(18,183,106,0)}
+  100%{box-shadow:0 0 0 0 rgba(18,183,106,0)}
+}
+@media (prefers-reduced-motion:reduce){.ai-badge .pulse{animation:none}}
+
+/* 标题里的渐变强调词 */
+.hero h1 .grad{
+  background:linear-gradient(115deg,#4F5BD5 0%,#7B6BE8 55%,#B56BE8 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+
+/* ---------- AI 对话屏（hero 手机内） ---------- */
+.p-chat{flex:1; padding:8px 13px; overflow:hidden; display:flex; flex-direction:column; gap:8px}
+.pm{display:flex}
+.pm.me{justify-content:flex-end}
+.pm span{font-size:11.5px; line-height:1.52; padding:8px 11px; border-radius:13px; max-width:90%}
+.pm.ai span{background:#fff; color:#1d1d1f; border-bottom-left-radius:4px;
+  box-shadow:0 1px 2px rgba(16,24,40,.07)}
+.pm.me span{background:linear-gradient(135deg,#4F5BD5,#7B6BE8); color:#fff; border-bottom-right-radius:4px}
+.pm span code{font-family:ui-monospace,Menlo,monospace; font-size:10.5px;
+  background:rgba(79,91,213,.10); color:#4F5BD5; padding:1px 4px; border-radius:4px}
+.pm.me span code{background:rgba(255,255,255,.22); color:#fff}
+/* AI 正在输入的动效 */
+.pm.ai .typing{display:inline-flex; gap:3px; align-items:center; padding:10px 12px}
+.pm.ai .typing i{width:5px; height:5px; border-radius:50%; background:#c2c7d6; display:block;
+  animation:blink 1.35s ease-in-out infinite}
+.pm.ai .typing i:nth-child(2){animation-delay:.22s}
+.pm.ai .typing i:nth-child(3){animation-delay:.44s}
+@keyframes blink{0%,60%,100%{opacity:.32; transform:translateY(0)} 30%{opacity:1; transform:translateY(-2px)}}
+@media (prefers-reduced-motion:reduce){.pm.ai .typing i{animation:none; opacity:.6}}
+/* 气泡里的长串（文件名 / 变量名）不能撑破手机屏 */
+.pm span{overflow-wrap:anywhere}
+.pm span code{white-space:nowrap}
+/* 输入条 —— 有它对话屏才「闭合」，否则像是被裁了一半 */
+.p-input{flex:none; display:flex; align-items:center; gap:8px; margin:0 13px 10px;
+  background:#fff; border:1px solid #e7e9f4; border-radius:99px; padding:8px 8px 8px 14px;
+  box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.p-input span{flex:1; font-size:11.5px; color:#b0b5c3}
+.p-input b{width:24px; height:24px; border-radius:50%; flex:none; display:grid; place-items:center;
+  background:linear-gradient(135deg,#4F5BD5,#7B6BE8); color:#fff; font-size:12px; font-weight:700}
+
+/* ---------- AI 区块：淡紫光晕底 ---------- */
+#ai{position:relative; overflow:hidden}
+#ai::before{content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(680px 420px at 10% 4%, rgba(123,107,232,.14), transparent 68%),
+    radial-gradient(560px 400px at 90% 86%, rgba(79,91,213,.12), transparent 68%)}
+#ai .wrap{position:relative; z-index:1}
+
+/* ---------- 数字统计条 ---------- */
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(132px,1fr)); gap:1px;
+  background:var(--line); border:1px solid var(--line); border-radius:20px; overflow:hidden;
+  margin:0 0 72px}
+.stat{background:var(--surface); padding:26px 16px; text-align:center}
+.stat .n{font-size:clamp(27px,3.6vw,38px); font-weight:700; letter-spacing:-.035em; line-height:1;
+  background:linear-gradient(135deg,#4F5BD5,#7B6BE8);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+.stat .l{font-size:12.5px; color:var(--t2); margin-top:9px; letter-spacing:.01em}
+
+/* ---------- AI 能力矩阵 ---------- */
+.ai-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(206px,1fr)); gap:16px;
+  margin:0 0 76px}
+.ai-cell{background:var(--surface); border:1px solid var(--line); border-radius:18px;
+  padding:22px 20px; box-shadow:0 6px 20px rgba(16,24,40,.05);
+  transition:transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s, border-color .3s}
+.ai-cell:hover{transform:translateY(-4px); border-color:rgba(79,91,213,.34);
+  box-shadow:0 18px 44px rgba(79,91,213,.15)}
+.ai-cell .ic{width:40px; height:40px; border-radius:12px; display:grid; place-items:center;
+  font-size:20px; margin-bottom:14px;
+  background:linear-gradient(135deg,rgba(79,91,213,.15),rgba(123,107,232,.09))}
+.ai-cell h4{font-size:15.5px; font-weight:700; margin-bottom:7px; letter-spacing:-.012em}
+.ai-cell p{font-size:13.5px; color:var(--t2); line-height:1.56}
+.ai-cell p code{font-family:ui-monospace,Menlo,monospace; font-size:12px; color:var(--p);
+  background:rgba(79,91,213,.08); padding:1px 5px; border-radius:5px}
+
+/* ---------- 对话演示卡（区块内，比 hero 里的大） ---------- */
+.chat.wide{padding:22px 20px}
+.chat.wide .msg{margin-bottom:14px; font-size:14px}
+.chat.wide .av{width:30px; height:30px; font-size:14px}
+.chat.wide .bub{padding:10px 14px; border-radius:14px; max-width:78%}
+.chat.wide .bub .mono{font-size:12.5px}
+/* 工具调用回执：让「AI 真的动手了」看得见 */
+.chat .tool{display:flex; align-items:center; gap:8px; margin:0 0 12px 40px;
+  font-size:12px; color:var(--t3); font-family:ui-monospace,Menlo,monospace;
+  background:rgba(79,91,213,.06); border-left:2px solid rgba(79,91,213,.35);
+  border-radius:0 8px 8px 0; padding:7px 12px}
+.chat .tool .ok{color:var(--ok); font-weight:700}
 </style>
 </head>
 <body>
@@ -298,8 +398,8 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
       B-Panel
     </span>
     <div class="links">
-      <a href="#features">功能</a>
       <a href="#ai">AI 助手</a>
+      <a href="#features">功能</a>
       <a href="#sharing">互传脚本</a>
       <a href="#security">安全</a>
       <a href="#download">下载</a>
@@ -312,12 +412,13 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
 <!-- ============ Hero ============ -->
 <header class="hero">
   <div class="wrap">
-    <div class="eyebrow reveal">Android · 免费 · 无需 root</div>
-    <h1 class="reveal">把手机<br>变成脚本任务服务器</h1>
-    <p class="sub reveal">在手机上运行 JavaScript / Python 脚本：定时调度、环境变量、订阅拉取、依赖管理，还能用浏览器远程管理、两台手机互传脚本，以及让 <b>AI 助手</b>对话替你操作。</p>
+    <div class="ai-badge reveal"><span class="pulse"></span>AI 助手已就绪 · 说话就能操作</div>
+    <h1 class="reveal">让你的脚本任务<br><span class="grad">听懂人话</span></h1>
+    <p class="sub reveal">在手机上跑 JavaScript / Python 脚本。<b>AI 助手</b>替你查任务、读日志、
+      改脚本、发文件 —— 微信、QQ 里直接说，或接进你惯用的 AI 客户端。数据只留本机。</p>
     <div class="btns reveal">
       <a class="btn pri" href="#download">免费下载</a>
-      <a class="btn ghost" href="#features">了解功能 →</a>
+      <a class="btn ghost" href="#ai">看看 AI 能做什么 →</a>
     </div>
 
     <!-- 多机并排展示 -->
@@ -349,38 +450,30 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         </div>
       </div>
 
-      <!-- 中：定时任务 -->
+      <!-- 中：AI 对话（主打） -->
       <div class="phone mid">
         <div class="notch"></div>
         <div class="screen">
           <div class="p-status"><span>9:41</span><span>◐ ▮ ▯</span></div>
           <div class="p-appbar">
-            <span class="t">定时任务</span>
+            <span class="t">AI 助手</span>
             <span class="ic">⌕</span><span class="ic">＋</span>
           </div>
-          <div class="p-body">
-            <div class="p-card">
-              <div class="r1"><span class="dot"></span><span class="nm">xx登陆测试</span><span class="tag ok">运行中</span></div>
-              <div class="cmd">task xx_login.js</div>
-            </div>
-            <div class="p-card">
-              <div class="r1"><span class="dot" style="background:#12B76A"></span><span class="nm">天气推送</span><span class="tag ok">成功</span></div>
-              <div class="cmd">task weather.py</div>
-            </div>
-            <div class="p-card">
-              <div class="r1"><span class="dot" style="background:#F79009"></span><span class="nm">数据同步</span><span class="tag warn">待执行</span></div>
-              <div class="cmd">task sync.js</div>
-            </div>
-            <div class="p-card">
-              <div class="r1"><span class="dot" style="background:#b0b5c3"></span><span class="nm">旧任务</span><span class="tag warn" style="background:#f0f1f5;color:#8a90a2">已禁用</span></div>
-              <div class="cmd">task legacy.js</div>
-            </div>
+          <div class="p-chat">
+            <div class="pm me"><span>今天有哪些任务失败了？</span></div>
+            <div class="pm ai"><span>今天跑了 12 个任务，<b>1 个失败</b>：<br>
+              <code>服务器监控.js</code> 退出码 1<br>要我看看日志吗？</span></div>
+            <div class="pm me"><span>看看</span></div>
+            <div class="pm ai"><span>Cookie 过期了，更新下环境变量 <code>WEB_COOKIE</code> 就好。</span></div>
+            <div class="pm me"><span>帮我改掉并重跑</span></div>
+            <div class="pm ai"><span class="typing"><i></i><i></i><i></i></span></div>
           </div>
+          <div class="p-input"><span>说点什么…</span><b>&#8593;</b></div>
           <div class="p-nav">
             <div class="n"><div class="g"></div>仪表盘</div>
-            <div class="n on"><div class="g"></div>任务</div>
+            <div class="n"><div class="g"></div>任务</div>
             <div class="n"><div class="g"></div>脚本</div>
-            <div class="n"><div class="g"></div>设置</div>
+            <div class="n on"><div class="g"></div>AI</div>
           </div>
         </div>
       </div>
@@ -415,11 +508,166 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
       </div>
 
     </div>
-    <div class="cap reveal" style="margin-top:26px;text-align:center;font-size:13.5px;color:var(--t3)">
-      脚本编辑 · 定时任务 · 仪表盘 —— 一个 App 全搞定
+    <div class="cap reveal" style="margin-top:35px;text-align:center;font-size:13.5px;color:var(--t3)">
+      AI 对话 · 脚本编辑 · 仪表盘 —— 一个 App 全搞定
     </div>
   </div>
 </header>
+
+<!-- ============ AI 助手 ============ -->
+<section id="ai">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">AI 助手</div>
+    <h2 class="sec-h reveal">不只是聊天<br>它真的会动手</h2>
+    <p class="sec-p reveal">B-Panel 把面板的全部能力交给 AI —— 查任务、读日志、改脚本、发文件，
+      都是在真实执行，不是在教你「你可以自己去点哪里」。接进微信、QQ，或你惯用的 AI 客户端都行。</p>
+
+    <!-- 数字统计条 -->
+    <div class="stats reveal">
+      <div class="stat"><div class="n">58</div><div class="l">可调用的工具</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">接入渠道</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">删除类操作</div></div>
+      <div class="stat"><div class="n">100%</div><div class="l">数据留在本机</div></div>
+    </div>
+
+    <!-- MCP 工具 -->
+    <div class="feat reveal">
+      <div class="txt">
+        <h3>58 个工具，交给 AI 操作</h3>
+        <p>对外暴露 <span class="hl">MCP 协议</span>端点，覆盖定时任务、脚本、环境变量、日志、配置、订阅、数据桶、插件、使用者、Skill、计划任务十一类能力。</p>
+        <p>支持 MCP 的客户端（Claude Code、Claude Desktop 等）填上地址即可接入，无需额外插件。</p>
+        <p>AI 工具集<span class="hl">不含任何删除类操作</span> —— 即便开启写权限，也删不掉你的任务与脚本。</p>
+        <div class="tags">
+          <span>任务查询 / 启停</span><span>脚本读写</span><span>环境变量</span>
+          <span>日志检索</span><span>配置修改</span><span>插件管理</span>
+          <span>计划任务</span><span>使用者权限</span>
+        </div>
+      </div>
+      <div class="code">
+<pre><span class="cm">// Claude Code 里加一段配置就能用</span>
+{
+  <span class="str">"mcpServers"</span>: {
+    <span class="str">"b-panel"</span>: {
+      <span class="str">"url"</span>: <span class="str">"http://192.168.1.8:5700/mcp"</span>
+    }
+  }
+}
+
+<span class="cm">// 然后就可以直接说：</span>
+<span class="kw">&gt;</span> 帮我看下今天有哪些任务失败了</pre>
+      </div>
+    </div>
+
+    <!-- 聊天机器人 -->
+    <div class="feat rev reveal">
+      <div class="txt">
+        <h3>在微信 / QQ 里直接用</h3>
+        <p>把面板接进聊天软件：<span class="hl">微信（openclaw）</span>、<span class="hl">QQ 机器人</span>，
+          扫个二维码就能登录，不用折腾开发者后台。</p>
+        <p>可设<span class="hl">指令前缀</span>（如只响应 <span class="mono">!</span> 开头的消息）、
+          <span class="hl">写权限开关</span>、以及<span class="hl">工具白名单</span> ——
+          想把某个机器人收窄成「只能查任务」的专用助手，勾一下就行。</p>
+        <p>暂时不想接渠道？先用<span class="hl">本地调试</span>在 App 里对话，验证配置没问题再上。</p>
+      </div>
+      <div class="chat wide">
+        <div class="msg me">
+          <div class="av">我</div>
+          <div class="bub">今天有几个任务失败了？</div>
+        </div>
+        <div class="tool"><span class="ok">&#10003;</span> cron_list &nbsp;·&nbsp; 查到 12 个任务</div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">今天共执行 12 个任务，其中 <b>1 个失败</b>：<br>
+            · <span class="mono">服务器监控.js</span> — 退出码 1<br>
+            要我把它的日志拉出来看看吗？</div>
+        </div>
+        <div class="msg me">
+          <div class="av">我</div>
+          <div class="bub">看看</div>
+        </div>
+        <div class="tool"><span class="ok">&#10003;</span> log_read_file &nbsp;·&nbsp; 读了 128 行</div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">日志里是 <span class="mono">Cookie 已过期</span>，
+            需要更新环境变量 <span class="mono">WEB_COOKIE</span>。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 模型账户 -->
+    <div class="feat reveal">
+      <div class="txt">
+        <h3>模型随便换，Key 不外泄</h3>
+        <p>支持 <span class="hl">OpenAI 兼容</span>（DeepSeek / 智谱 / 月之暗面 / 硅基流动 / 本地 Ollama…）
+          与 <span class="hl">Anthropic 原生</span>两套接入，可配多个账户随时切换。</p>
+        <p>后台可一键<span class="hl">拉取模型列表</span>（不用照文档手敲）、<span class="hl">测试连接</span>
+          确认 Key 可用；网页面板里 Key 一律<span class="hl">掩码显示</span>，改名字保存也不会覆盖真 Key。</p>
+        <p>AI 与 MCP 各有独立开关，默认关闭，用不到就不占资源。</p>
+      </div>
+      <div class="langs">
+        <div class="lang">
+          <div class="ic">🤖</div>
+          <div class="nm">OpenAI 兼容</div>
+          <div class="vr">DeepSeek / 智谱 / Ollama…</div>
+        </div>
+        <div class="lang">
+          <div class="ic">🧠</div>
+          <div class="nm">Anthropic</div>
+          <div class="vr">Claude 原生接入</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI 能力矩阵：本版新增、但页面上还没体现的能力 -->
+    <div class="sec-eyebrow reveal" style="text-align:center;margin-top:4px">更多 AI 能力</div>
+    <h2 class="sec-h reveal" style="font-size:clamp(24px,3vw,34px)">越用越顺手</h2>
+    <p class="sec-p reveal" style="margin-bottom:38px">这些能力在 App 与网页面板里配好即可用，不需要写一行代码。</p>
+
+    <div class="ai-grid reveal">
+      <div class="ai-cell">
+        <div class="ic">&#128218;</div>
+        <h4>知识库</h4>
+        <p>把人设、产品文档、常见问答丢进去，AI 回答时自动带上 —— 不用每次在对话里重新交代背景。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#129513;</div>
+        <h4>Skill 扩展</h4>
+        <p>给 AI 挂上你自己的 HTTP 接口：查快递、查油价、调内部服务。装一次，之后对话里直接就能用。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#9200;</div>
+        <h4>计划任务</h4>
+        <p>「每天早上 8 点查天气发我」—— 到点 AI 自己跑，结果直接推到聊天里，不用你问。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#129689;</div>
+        <h4>数据桶</h4>
+        <p>AI 的长期记忆。你说「记一下我的偏好」，它存下来，下次对话还认得。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#128444;</div>
+        <h4>看图 + 出文档</h4>
+        <p>发张截图它能看懂；让它整理数据，直接生成 <code>Word</code> / <code>Excel</code> / <code>PPT</code> 发回来。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#128101;</div>
+        <h4>多人分权</h4>
+        <p>家人朋友也能用，但默认没有权限 —— 你逐个开通，还能设每天调用上限，不怕被刷爆。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#129504;</div>
+        <h4>长对话不忘事</h4>
+        <p>聊久了自动把早期内容压成摘要，不会「说着说着就忘了前面」。运行时长与消耗上限也可自己调。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#128256;</div>
+        <h4>随时换模型</h4>
+        <p>对话里一句「换个模型」就切走，也能给不同场景配不同账户，随时对比效果。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ============ 功能 ============ -->
 <section id="features">
@@ -465,7 +713,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     <div class="feat reveal">
       <div class="txt">
         <h3>浏览器远程管理</h3>
-        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十三个页签完整管理仪表盘、任务、变量、脚本、日志、依赖、订阅、令牌、通知渠道与 AI 助手。</p>
+        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十个页签完整管理仪表盘、任务、变量、脚本、日志、依赖、订阅、令牌、通知渠道与 AI 助手。</p>
         <p>脚本可单个下载，也可勾选多个<span class="hl">打包成 zip</span>（保留目录结构）；运行日志实时刷新，脚本随时停止。</p>
       </div>
       <div class="browser">
@@ -557,99 +805,6 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
   </div>
 </section>
 
-<!-- ============ AI 助手 ============ -->
-<section id="ai">
-  <div class="wrap">
-    <div class="sec-eyebrow reveal">AI 助手 · 新增</div>
-    <h2 class="sec-h reveal">不想翻菜单？<br>直接跟它说</h2>
-    <p class="sec-p reveal">B-Panel 把面板的能力通过 MCP 协议开放出来，任何支持 MCP 的 AI 客户端都能接管操作 —— 查任务、读日志、改脚本，一句话的事。</p>
-
-    <!-- MCP 工具 -->
-    <div class="feat reveal">
-      <div class="txt">
-        <h3>34 个工具，交给 AI 操作</h3>
-        <p>对外暴露 <span class="hl">MCP 协议</span>端点，覆盖定时任务、脚本、环境变量、日志、配置五大类能力。</p>
-        <p>支持 MCP 的客户端（Claude Code、Claude Desktop 等）填上地址即可接入，无需额外插件。</p>
-        <p>AI 工具集<span class="hl">不含任何删除类操作</span> —— 即便开启写权限，也删不掉你的任务与脚本。</p>
-        <div class="tags">
-          <span>任务查询 / 启停</span><span>脚本读写</span><span>环境变量</span>
-          <span>日志检索</span><span>配置修改</span>
-        </div>
-      </div>
-      <div class="code">
-<pre><span class="cm">// Claude Code 里加一段配置就能用</span>
-{
-  <span class="str">"mcpServers"</span>: {
-    <span class="str">"b-panel"</span>: {
-      <span class="str">"url"</span>: <span class="str">"http://192.168.1.8:5700/mcp"</span>
-    }
-  }
-}
-
-<span class="cm">// 然后就可以直接说：</span>
-<span class="kw">&gt;</span> 帮我看下今天有哪些任务失败了</pre>
-      </div>
-    </div>
-
-    <!-- 聊天机器人 -->
-    <div class="feat rev reveal">
-      <div class="txt">
-        <h3>在微信 / QQ 里直接用</h3>
-        <p>把面板接进聊天软件：<span class="hl">微信（openclaw）</span>、<span class="hl">QQ 机器人</span>，
-          扫个二维码就能登录，不用折腾开发者后台。</p>
-        <p>可设<span class="hl">指令前缀</span>（如只响应 <span class="mono">!</span> 开头的消息）、
-          <span class="hl">写权限开关</span>、以及<span class="hl">工具白名单</span> ——
-          想把某个机器人收窄成「只能查任务」的专用助手，勾一下就行。</p>
-        <p>暂时不想接渠道？先用<span class="hl">本地调试</span>在 App 里对话，验证配置没问题再上。</p>
-      </div>
-      <div class="chat">
-        <div class="msg me">
-          <div class="av">我</div>
-          <div class="bub">今天有几个任务失败了？</div>
-        </div>
-        <div class="msg">
-          <div class="av">AI</div>
-          <div class="bub">今天共执行 12 个任务，其中 <b>1 个失败</b>：<br>
-            · <span class="mono">jd_sign.js</span> — 退出码 1<br>
-            要我把它的日志拉出来看看吗？</div>
-        </div>
-        <div class="msg me">
-          <div class="av">我</div>
-          <div class="bub">看看</div>
-        </div>
-        <div class="msg">
-          <div class="av">AI</div>
-          <div class="bub">日志里是 <span class="mono">Cookie 已过期</span>，
-            需要更新环境变量 <span class="mono">JD_COOKIE</span>。</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 模型账户 -->
-    <div class="feat reveal">
-      <div class="txt">
-        <h3>模型随便换，Key 不外泄</h3>
-        <p>支持 <span class="hl">OpenAI 兼容</span>（DeepSeek / 智谱 / 月之暗面 / 硅基流动 / 本地 Ollama…）
-          与 <span class="hl">Anthropic 原生</span>两套接入，可配多个账户随时切换。</p>
-        <p>后台可一键<span class="hl">拉取模型列表</span>（不用照文档手敲）、<span class="hl">测试连接</span>
-          确认 Key 可用；网页面板里 Key 一律<span class="hl">掩码显示</span>，改名字保存也不会覆盖真 Key。</p>
-        <p>AI 与 MCP 各有独立开关，默认关闭，用不到就不占资源。</p>
-      </div>
-      <div class="langs">
-        <div class="lang">
-          <div class="ic">🤖</div>
-          <div class="nm">OpenAI 兼容</div>
-          <div class="vr">DeepSeek / 智谱 / Ollama…</div>
-        </div>
-        <div class="lang">
-          <div class="ic">🧠</div>
-          <div class="nm">Anthropic</div>
-          <div class="vr">Claude 原生接入</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ 安全（深色） ============ -->
 <section id="security" class="dark">
@@ -703,7 +858,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <span class="dl-ic">⬇</span>
         <span class="dl-txt">
           <span class="dl-name">下载 B-Panel for Android</span>
-          <span class="dl-meta">arm64-v8a · v1.0.0 · 约 83 MB</span>
+          <span class="dl-meta">arm64-v8a · v1.0.1 · 约 95 MB</span>
         </span>
       </a>
       <p class="req">系统要求：Android 8.0 及以上 · 支持 arm64-v8a / armeabi-v7a / x86_64 · 查看 <a href="https://github.com/241793/B-Panel/releases" target="_blank" rel="noopener">历史版本</a></p>
