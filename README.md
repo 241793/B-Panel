@@ -11,6 +11,8 @@
 第三方青龙客户端可直接接入）与网页管理面板。
 
 还可以让 **AI 助手**接手操作 —— 对话即可查任务、读日志、改脚本。
+<img width="1056" height="1986" alt="8ef1b5f9-d257-4abf-8694-e6b6a62cc1f6" src="https://github.com/user-attachments/assets/7682f1cc-3e51-4f10-ab9b-7c772ac402bd" />
+
 <img width="371" height="713" alt="83503c21-a658-43b2-b41f-8494afc5ce16" src="https://github.com/user-attachments/assets/729c036d-001a-47d9-bd4b-850d1e0aebb5" />
 
 </div>
