@@ -400,6 +400,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     <div class="links">
       <a href="#ai">AI 助手</a>
       <a href="#features">功能</a>
+      <a href="#shop">商城支付</a>
       <a href="#sharing">互传脚本</a>
       <a href="#security">安全</a>
       <a href="#download">下载</a>
@@ -413,9 +414,9 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
 <header class="hero">
   <div class="wrap">
     <div class="ai-badge reveal"><span class="pulse"></span>AI 助手已就绪 · 说话就能操作</div>
-    <h1 class="reveal">让你的脚本任务<br><span class="grad">听懂人话</span></h1>
+    <h1 class="reveal">安卓智能Agent助手<br><span class="grad">脚本运维•AI+</span></h1>
     <p class="sub reveal">在手机上跑 JavaScript / Python 脚本。<b>AI 助手</b>替你查任务、读日志、
-      改脚本、发文件 —— 微信、QQ 里直接说，或接进你惯用的 AI 客户端。数据只留本机。</p>
+      改脚本、发文件。完整Agent功能，支持调用工具，更多内容等你发现 —— 微信、QQ 里直接说，或接进你惯用的 AI 客户端。数据只留本机。</p>
     <div class="btns reveal">
       <a class="btn pri" href="#download">免费下载</a>
       <a class="btn ghost" href="#ai">看看 AI 能做什么 →</a>
@@ -524,8 +525,8 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
 
     <!-- 数字统计条 -->
     <div class="stats reveal">
-      <div class="stat"><div class="n">58</div><div class="l">可调用的工具</div></div>
-      <div class="stat"><div class="n">4</div><div class="l">接入渠道</div></div>
+      <div class="stat"><div class="n">71</div><div class="l">可调用的工具</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">接入渠道</div></div>
       <div class="stat"><div class="n">0</div><div class="l">删除类操作</div></div>
       <div class="stat"><div class="n">100%</div><div class="l">数据留在本机</div></div>
     </div>
@@ -533,14 +534,14 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     <!-- MCP 工具 -->
     <div class="feat reveal">
       <div class="txt">
-        <h3>58 个工具，交给 AI 操作</h3>
-        <p>对外暴露 <span class="hl">MCP 协议</span>端点，覆盖定时任务、脚本、环境变量、日志、配置、订阅、数据桶、插件、使用者、Skill、计划任务十一类能力。</p>
+        <h3>71 个工具，交给 AI 操作</h3>
+        <p>对外暴露 <span class="hl">MCP 协议</span>端点，覆盖定时任务、脚本、环境变量、日志、配置、订阅、数据桶、插件、使用者、Skill、计划任务，以及<span class="hl">卡密商城与码支付</span>十二类能力。</p>
         <p>支持 MCP 的客户端（Claude Code、Claude Desktop 等）填上地址即可接入，无需额外插件。</p>
         <p>AI 工具集<span class="hl">不含任何删除类操作</span> —— 即便开启写权限，也删不掉你的任务与脚本。</p>
         <div class="tags">
           <span>任务查询 / 启停</span><span>脚本读写</span><span>环境变量</span>
           <span>日志检索</span><span>配置修改</span><span>插件管理</span>
-          <span>计划任务</span><span>使用者权限</span>
+          <span>计划任务</span><span>使用者权限</span><span>商城 / 支付</span>
         </div>
       </div>
       <div class="code">
@@ -664,23 +665,131 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <h4>随时换模型</h4>
         <p>对话里一句「换个模型」就切走，也能给不同场景配不同账户，随时对比效果。</p>
       </div>
+      <div class="ai-cell">
+        <div class="ic">&#128722;</div>
+        <h4>全自动售前客服</h4>
+        <p>把商品丢给它：买家问库存它查库、买家要买它发收款码、付完款它自动推送卡密，全程无需人工值守。</p>
+      </div>
     </div>
   </div>
 </section>
 
+
+
+<!-- ============ 商城与支付（新增） ============ -->
+<section id="shop">
+  <div class="wrap">
+    <div class="sec-eyebrow reveal">卡密商城 · 码支付</div>
+    <h2 class="sec-h reveal">个人收款自动发货<br>还能让 AI 当售前客服</h2>
+    <p class="sec-p reveal">不用签约企业支付接口、不走第三方中转、零手续费。用支付宝个人收款码 + 本地账单轮询，实现全自动到账确认与卡密发货；接上聊天机器人，对话里就能选品、发码、查单。</p>
+
+    <!-- 码支付 -->
+    <div class="feat reveal">
+      <div class="txt">
+        <h3>码支付：个人码自动到账</h3>
+        <p>支持<span class="hl">经营码（金额匹配）</span>与<span class="hl">转账链接（备注匹配）</span>两种模式。系统为每笔订单分配唯一金额或备注，后台自动轮询支付宝账单确认到账。</p>
+        <p>资金直接进你的支付宝，<span class="hl">零手续费、无中间商资金沉淀</span>。单笔超时自动释放库存、已付流水自动去重防重发，账单延迟自动扩大时间窗容差。</p>
+        <div class="tags">
+          <span>经营码模式</span><span>转账备注模式</span><span>账单自动轮询</span>
+          <span>金额分级防撞</span><span>超时自动过期</span><span>去重防重发</span>
+        </div>
+      </div>
+      <div class="browser">
+        <div class="bar"><i></i><i></i><i></i><div class="url">收银台 · 经营码模式</div></div>
+        <div class="pane" style="display:flex;align-items:center;justify-content:center;padding:24px;background:#fff">
+          <div style="text-align:center;max-width:260px">
+            <div style="font-size:12px;color:var(--t3);margin-bottom:4px">支付订单 · SHOP_17916920</div>
+            <div style="font-size:16px;font-weight:700;color:var(--t)">月度会员卡密 × 1</div>
+            <div style="font-size:28px;font-weight:800;color:var(--p);margin:8px 0 12px">8.01 <span style="font-size:14px;font-weight:500">元</span></div>
+            <div style="width:140px;height:140px;margin:0 auto 10px;background:#f5f6fa;border:1px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--t3);font-size:11.5px;line-height:1.4">
+              <span>📱 打开支付宝<br>扫码支付<br><b>请付准金额</b></span>
+            </div>
+            <div style="font-size:11px;color:var(--t3)">请在 5 分钟内完成支付 · 到账自动发货</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 与 AI 配合 -->
+    <div class="feat rev reveal">
+      <div class="txt">
+        <h3>与 AI 配合：对话即收银</h3>
+        <p>13 个内置 MCP 工具打通商城体系（买家 5 个 + 管理员 8 个）。买家在<span class="hl">微信 / QQ / NTQQ</span> 里直接问，AI 全程闭环处理：</p>
+        <p>「有什么商品」→ AI 调 <span class="mono">shop_list_products</span> 查库存报价；「我要买一个」→ 调 <span class="mono">shop_buy</span> 下单并直接把收款码发在聊天里；「我付好了」→ 调 <span class="mono">shop_check_payment</span> 查账并自动推送卡密。</p>
+        <p>管理员还能在对话里查营收、补发订单、调整库存。外部系统亦可用提供的 <span class="hl">标准商户协议</span> 对接。</p>
+        <div class="tags">
+          <span>AI 售前报价</span><span>对话发收款码</span><span>付完自动发卡密</span>
+          <span>买家自主查单</span><span>管理员补发</span><span>标准商户对接</span>
+        </div>
+      </div>
+      <div class="chat wide">
+        <div class="msg me">
+          <div class="av">买家</div>
+          <div class="bub">你们店有什么卡密？</div>
+        </div>
+        <div class="tool"><span class="ok">&#10003;</span> shop_list_products &nbsp;·&nbsp; 查到 2 件在售商品</div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">目前在售：<br>1. <b>月度会员卡密</b> — 8.01 元（有货）<br>2. <b>季度特权激活码</b> — 23.99 元（有货）<br>需要哪款直接告诉我数量~</div>
+        </div>
+        <div class="msg me">
+          <div class="av">买家</div>
+          <div class="bub">来个单月的</div>
+        </div>
+        <div class="tool"><span class="ok">&#10003;</span> shop_buy &nbsp;·&nbsp; 下单成功，生成收款码</div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">已下单！金额 <b>8.01 元</b>（请付准尾数）：<br>
+            <div style="margin:8px 0;padding:8px 12px;background:rgba(79,91,213,.08);border-radius:8px;font-size:12px;color:var(--p)">[收款码图片] 已发送，扫码后告诉我「付好了」即可发货</div>
+          </div>
+        </div>
+        <div class="msg me">
+          <div class="av">买家</div>
+          <div class="bub">付好了</div>
+        </div>
+        <div class="tool"><span class="ok">&#10003;</span> shop_check_payment &nbsp;·&nbsp; 支付宝账单确认到账</div>
+        <div class="msg">
+          <div class="av">AI</div>
+          <div class="bub">已确认到账！你的卡密如下：<br>
+            <span class="mono" style="background:rgba(18,183,106,.1);padding:2px 6px;border-radius:4px;color:var(--ok);font-weight:700">VIP-2026-ABCD-EF88-9912</span><br>
+            感谢购买，随时凭订单号找我补查。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 三个小特性卡 -->
+    <div class="ai-grid reveal" style="margin-top:20px">
+      <div class="ai-cell">
+        <div class="ic">&#128230;</div>
+        <h4>两种库存模式</h4>
+        <p>既可批量导入现成卡密（一行一条、已发不复发），也可配置规则让系统按需自动生成，无库存压力。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#128274;</div>
+        <h4>全链路幂等发货</h4>
+        <p>一笔流水只匹配一笔订单，处理过的流水号永久记账；买家反复查单只回显已有卡密，绝不二次扣减库存。</p>
+      </div>
+      <div class="ai-cell">
+        <div class="ic">&#128241;</div>
+        <h4>三处都能买</h4>
+        <p>聊天软件里找 AI 买、网页面板买家页直接买、手机 App 里随时管理与补发。全端数据实时同步。</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ============ 功能 ============ -->
 <section id="features">
   <div class="wrap">
     <div class="sec-eyebrow reveal">核心能力</div>
     <h2 class="sec-h reveal">一台手机，跑得动你的所有脚本</h2>
-    <p class="sec-p reveal">Node.js 18 与 Python 3.11 双运行时、分钟级 cron 调度、浏览器远程管理、两台手机互传脚本、AI 助手对话操作 —— 从写脚本到发定时任务，全程在手机上完成。</p>
+    <p class="sec-p reveal">Node.js 18 与 Python 3.13 双运行时、分钟级 cron 调度、浏览器远程管理、两台手机互传脚本、AI 助手对话操作 —— 从写脚本到发定时任务，全程在手机上完成。</p>
 
     <!-- 双运行时 -->
     <div class="feat reveal">
       <div class="txt">
         <h3>双语言运行时</h3>
-        <p>内置 <span class="hl">Node.js 18</span> 与 <span class="hl">Python 3.11</span> 两套完整运行时，脚本进程内执行，无需额外环境。</p>
+        <p>内置 <span class="hl">Node.js 18</span> 与 <span class="hl">Python 3.13</span> 两套完整运行时，脚本进程内执行，无需额外环境。</p>
         <p>多个脚本可以<span class="hl">同时运行</span>，各有独立日志互不串台；支持超时强停、缺依赖自动识别安装。常用 C 扩展包已随包内置，开箱即用。</p>
       </div>
       <div class="code">
@@ -713,7 +822,7 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
     <div class="feat reveal">
       <div class="txt">
         <h3>浏览器远程管理</h3>
-        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十个页签完整管理仪表盘、任务、变量、脚本、日志、依赖、订阅、令牌、通知渠道与 AI 助手。</p>
+        <p>手机或同网段电脑打开 <span class="hl">http://手机IP:5700/panel</span>，十个页签完整管理仪表盘、任务、变量、脚本、日志、依赖、订阅、令牌、通知渠道与 AI 助手（含卡密商城 / 码支付）。</p>
         <p>脚本可单个下载，也可勾选多个<span class="hl">打包成 zip</span>（保留目录结构）；运行日志实时刷新，脚本随时停止。</p>
       </div>
       <div class="browser">
@@ -858,10 +967,10 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
         <span class="dl-ic">⬇</span>
         <span class="dl-txt">
           <span class="dl-name">下载 B-Panel for Android</span>
-          <span class="dl-meta">arm64-v8a · v1.0.1 · 约 95 MB</span>
+          <span class="dl-meta">arm64-v8a · v1.0.2 · 约 91 MB</span>
         </span>
       </a>
-      <p class="req">系统要求：Android 8.0 及以上 · 支持 arm64-v8a / armeabi-v7a / x86_64 · 查看 <a href="https://github.com/241793/B-Panel/releases" target="_blank" rel="noopener">历史版本</a></p>
+      <p class="req">系统要求：Android 8.0 及以上 · 支持 arm64-v8a（1.0.2 起内置 curl_cffi 收敛为单 64 位 ARM）· 查看 <a href="https://github.com/241793/B-Panel/releases" target="_blank" rel="noopener">历史版本</a></p>
     </div>
   </div>
 </section>
