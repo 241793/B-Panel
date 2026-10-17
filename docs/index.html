@@ -519,7 +519,12 @@ footer .bottom{border-top:1px solid var(--line); padding-top:22px; display:flex;
 
 @media(max-width:400px){
   .phone{width:min(280px,100%)}
-  .p-code{display:none}              /* 极窄屏优先保证对话屏完整 */
+  /* 不要隐藏代码屏：360~400px 覆盖了 iPhone SE/12/13/14 和多数安卓机，
+     隐藏后轮播里的「脚本编辑」第二张只剩一块空白屏，看着就像页面坏了。
+     改为缩字号 + 去掉行号，窄屏也能完整显示代码。 */
+  .p-code{font-size:8.5px; line-height:1.7}
+  .p-code .ln{padding:0 9px}
+  .p-code .ln .no{display:none}
 }
 </style>
 </head>
